@@ -1,0 +1,81 @@
+/*
+	Obs: Este método apenas cria um vetor de mesmo valor, mas armazenando de 
+	forma totalmente diferente e economizando algum espaco.
+	Metodo valido apenas para repeticoes acima de 4x, pois com valores inferiores
+	o algoritimo nao sera tao eficaz e tera o tamanho final maior do que 
+	o vetor original.	
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+/* Cria uma struct para armazenar um vetor do tipo CHAR e INT que 
+sera usado como verificador de LETRA, POSIcAO e QUANTIDADE
+(Numero de repeticao de uma mesma letra no vetor) */
+
+struct TipoCelula{
+	char letra;
+	int cont;
+};
+
+// Chamada da função
+int Comprime(char Original[], struct TipoCelula Comp[]);
+
+int main(int argc, char *argv[]) {
+	//Vetor Original sem compressão
+	char Original[]="AAAAABBBBWWWEEOOOO";	
+	
+	struct TipoCelula Comp[1000];
+	
+	int Contador, i;	
+	
+	//chamada da fucao que vai "Comprimir"o vetor e atribui a contador
+	Contador = Comprime(Original, Comp);
+	
+	//printf para printar o vetor original
+	printf("Vetor trabalhado: - %s -  \n", Original);	
+	
+	// for para printar a LETRA do vetor e o numero de repeticoes
+	for( i =0; i < Contador; i++){
+		/*Vetor com as Letras e o numero de suas respectivas repeticoes
+		sao printados*/
+		printf("%c%d | ",Comp[i].letra, Comp[i].cont);
+		printf("\n");
+	}
+	
+	system("pause");
+	return 0;
+}
+int Comprime(char Original[], struct TipoCelula Comp[]){
+	
+	int i, j, aux_orig = 0;
+	
+	for(i = 0; i < 1000; i++){ // 1000 = tamanho do vetor
+		
+		for(j= aux_orig; j < strlen(Original); j++){
+			
+			/* if verifica se a LETRA que esta na posicao J do vetor
+			 Original e' a mesma LETRA da proxima posicao do vetor 
+			 Original */
+			if(Original[j] != Original[j+1])
+				break;
+		}
+		/*Quando a LETRA for diferente, atribuimos a LETRA que esta 
+		na posicao J do vetor Original para o vetor Comp, juntamente com
+		o numero da quantidade de vezes que esta mesma LETRA se repete*/
+		Comp[i].cont = j- aux_orig +1;
+		Comp[i].letra = Original[aux_orig];
+		
+		/*if faz com que apos a troca de informacao entre os 2 vetores
+		o aux_orig seje incrementado e possao continuar verificando as 
+		proximas letras*/
+		if(aux_orig < strlen(Original)){
+			aux_orig = j+1;
+		}
+		else{break;}
+		}
+
+	return (i);
+		
+}
