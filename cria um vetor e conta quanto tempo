@@ -1,0 +1,103 @@
+/*
+	Obs: Este método apenas cria um vetor e conta quanto tempo demora para percorer e executar.
+  O codigo abaixo possui 3 metodos de ordenacao Selection sort, Bobble sort e Quick sort.
+*/
+
+#include <stdio.h> 
+#include <stdlib.h>    
+#include <time.h>   // Biblioteca responsavel pelo tempo 
+
+
+float selection(int *vet, int tam, int t, clock_t t1, clock_t t2);	
+int criaVetor(int *vet, int tam);
+int calculaTempo(clock_t t1, clock_t t2, int flag);
+
+int main(){
+	
+	clock_t t1, t2;  // clock_t retorna o numero de clocks desde a execução do programa  
+	int flag, opcao, t; // flag para contagem recursiva, para gerar o tempo com maior exatidão 
+	int tam = 50000;
+	int vet[tam]; 
+	float tempo;
+	criaVetor(vet, tam);
+	
+	printf("###        Teste de Performance:         #");
+	printf("\n\n Escolha a opcao desejada: ");
+	printf("\n 1- Selection Sort");
+	printf("\n 2- Bobble Sort");
+	printf("\n 3- Quick sort");
+
+	switch(opcao){
+		case 1:
+			tempo = selection(vet, tam, t, t1, t2);
+		
+			break;
+	
+		case 2:
+			bobble();
+		
+			break;
+			
+		case 3:
+			quick();
+			
+			break;
+	}
+	system("pause");
+}
+float selection(int *vet, int tam, int t, clock_t t1, clock_t t2){
+	
+	int i, j, aux, menor;
+	i = 0;
+		
+	t1 = clock();  // atribui o valor do "clock" para a variavel
+	
+	for(t = 0; t <= 10; t++){		
+		for(i = 0; i<tam; i++){
+			for(j=i+1; j< tam; j++){
+			if(vet[i] > vet[j])
+			menor = j;
+			}	
+		}
+		if(i!= menor){
+		aux = vet[i];
+		vet[i] = vet[j];
+		vet[j] = aux;
+		}
+	
+	}
+	
+	t2 = clock();  // atribui o valor do "clock" para a variavel
+	
+	float tempoExec = ((float)(t2 - t1) / CLOCKS_PER_SEC ); // CLOCKS_PER_SEC converte do clock para milisegundos 
+  	printf("%f", tempoExec); // printa o tempo de ordenação || criação do vetor
+  	return(tempoExec);
+  	
+  		
+}
+
+/*int calculaTempo(clock_t t1; clock_t t2; flag){
+	int i;
+	t1 = clock();  // atribui o valor do "clock" para a variavel
+	t2 = clock();  // atribui o valor do "clock" para a variavel
+
+	for(i = 0; i <= 10; i++){
+		
+	}
+	float dif = ((float)(t2 - t1) / CLOCKS_PER_SEC ); // CLOCKS_PER_SEC converte do clock para milisegundos 
+  	printf("%f", dif); // printa o tempo de ordenação || criação do vetor
+
+}*/
+
+
+int criaVetor(int *vet, int tam){
+    int i;
+     
+    printf("Vetor preen: [0,%d]\n\n", RAND_MAX);
+    srand((unsigned)time(NULL));
+     
+    for(i=1; i<=tam; i++){
+      vet[i]= (rand()%20000); // (rand()%n) onde n = Range de numeros a serem randomizados(no casa de 0 a 20000)
+      printf("Posicao do vetor: %d: \nValor: %d\n",i, vet[i]); // printa a posição e o conteudo do vetor 
+    }
+}
